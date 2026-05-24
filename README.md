@@ -20,12 +20,23 @@ Analysing 18 months of car insurance data to optimise marketing, identify low‑
 
 ### Task 2 – Data Version Control (DVC)
 - **Goal:** Reproducible data pipeline for auditing and regulatory compliance.
-- **Setup:**
-  - DVC initialised (`dvc init`)
-  - Local remote storage: `C:\Users\Dataencoder\Desktop\dvc_remote`
-  - Raw data tracked: `data/insurance_data.csv` (via `dvc add`)
-  - Cleaned data version: `data/insurance_data_cleaned.csv` (also tracked)
-- **Reproducing the data:**
-  ```bash
-  pip install dvc
-  dvc pull
+### DVC Setup Commands (reproducible)
+
+```bash
+# Initialize DVC
+dvc init
+
+# Add local remote storage (path outside repo)
+dvc remote add -d localstorage C:\Users\Dataencoder\Desktop\dvc_remote
+
+# Track raw data
+dvc add data/insurance_data.csv
+git add data/insurance_data.csv.dvc .gitignore
+
+# Create second version (cleaned) and track
+cp data/insurance_data.csv data/insurance_data_cleaned.csv
+dvc add data/insurance_data_cleaned.csv
+git add data/insurance_data_cleaned.csv.dvc
+
+# Push data to remote
+dvc push
