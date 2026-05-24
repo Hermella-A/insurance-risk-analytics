@@ -1,0 +1,25 @@
+﻿# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+.venv/
+
+# Data files (large, not committed)
+data/*.csv
+data/*.xlsx
+
+# DVC
+.dvc/
+.dvc/tmp
+.dvc/cache
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# VS Code
+.vscode/
