@@ -1,4 +1,4 @@
-﻿# Python
+# Python
 __pycache__/
 *.pyc
 *.pyo
@@ -17,9 +17,6 @@ data/*.xlsx
 .dvc/tmp
 .dvc/cache
 
-# Jupyter Notebook
-.ipynb_checkpoints/
-*.ipynb
 
 # VS Code
 .vscode/
