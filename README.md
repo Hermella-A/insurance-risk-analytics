@@ -1,8 +1,8 @@
-﻿# Insurance Risk Analytics
+﻿## Data Version Control (DVC)
 
-## Setup
-1. Clone the repository
-2. Create virtual environment: `python -m venv venv`
-3. Activate: `venv\Scripts\activate` (Windows)
-4. Install dependencies: `pip install -r requirements.txt`
-5. Run Jupyter: `jupyter notebook`
+- Raw data is tracked with DVC.
+- Remote storage: local directory `C:\Users\Dataencoder\Desktop\dvc_remote`
+- To reproduce the data pipeline:
+  1. Clone the repository
+  2. Install DVC: `pip install dvc`
+  3. Pull data: `dvc pull`
