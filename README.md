@@ -1,4 +1,5 @@
 ﻿# Insurance Risk Analytics
+[![CI](https://github.com/Hermella-A/insurance-risk-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/Hermella-A/insurance-risk-analytics/actions/workflows/ci.yml)
 
 ## Project Overview
 Analysing 18 months of car insurance claim data (Feb 2014 – Aug 2015) for AlphaCare Insurance Solutions (ACIS) to optimise marketing, identify low‑risk targets, and build predictive models for claim severity and probability.
