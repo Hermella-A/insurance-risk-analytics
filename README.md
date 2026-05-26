@@ -1,42 +1,52 @@
-﻿# Insurance Risk Analytics
+﻿# Task 3 – A/B Hypothesis Testing
 
-## Project Overview
-Analysing 18 months of car insurance data to optimise marketing, identify low‑risk targets, and build predictive models for claim severity and probability.
+## Objective
+Statistically validate risk drivers (provinces, zip codes, gender) using claim frequency, claim severity, and margin as KPIs.
 
-## Tasks Completed
+## Hypotheses Tested
 
-### Task 1 – Exploratory Data Analysis (EDA)
-- **Notebook:** `notebooks/01_eda.ipynb`
-- **Key analyses:**
-  - Data quality assessment (no missing values, no duplicates)
-  - Univariate and bivariate visualisations
-  - Geographic trends (loss ratio by province, vehicle type, gender)
-  - Outlier detection (box plots for key numerical features)
-  - Temporal trends (monthly claims and premiums)
-- **Key findings:**
-  - Overall portfolio loss ratio: [calculated value – you can fill later]
-  - Provinces/vehicle types with highest loss ratio
-  - Top auto makes with highest average claim amounts
+1. **Provinces** – Addis Ababa vs Oromia  
+   - No difference in claim frequency, severity, or margin.
+2. **Zip codes** – 10002 vs 20003  
+   - No difference in claim frequency or margin.
+3. **Gender** – Male vs Female  
+   - No difference in claim frequency, severity, or margin.
 
-### Task 2 – Data Version Control (DVC)
-- **Goal:** Reproducible data pipeline for auditing and regulatory compliance.
-### DVC Setup Commands (reproducible)
+## Methodology
 
-```bash
-# Initialize DVC
-dvc init
+- **Claim frequency:** Chi‑squared test (categorical).  
+- **Claim severity:** t‑test (only on policies with claims > 0).  
+- **Margin (TotalPremium – TotalClaims):** t‑test.
 
-# Add local remote storage (path outside repo)
-dvc remote add -d localstorage C:\Users\Dataencoder\Desktop\dvc_remote
+All tests use α = 0.05.
 
-# Track raw data
-dvc add data/insurance_data.csv
-git add data/insurance_data.csv.dvc .gitignore
+## Results Summary
 
-# Create second version (cleaned) and track
-cp data/insurance_data.csv data/insurance_data_cleaned.csv
-dvc add data/insurance_data_cleaned.csv
-git add data/insurance_data_cleaned.csv.dvc
+| Hypothesis | Comparison | KPI | p‑value | Decision |
+|------------|------------|-----|---------|----------|
+| Provinces | Addis Ababa vs Oromia | Claim Frequency | 0.8139 | Fail to reject H₀ |
+| Provinces | Addis Ababa vs Oromia | Claim Severity | 0.4265 | Fail to reject H₀ |
+| Provinces | Addis Ababa vs Oromia | Margin | 0.6513 | Fail to reject H₀ |
+| Zip codes | 10002 vs 20003 | Claim Frequency | 0.9534 | Fail to reject H₀ |
+| Zip codes | 10002 vs 20003 | Margin | 0.8894 | Fail to reject H₀ |
+| Gender | Male vs Female | Claim Frequency | 0.9638 | Fail to reject H₀ |
+| Gender | Male vs Female | Claim Severity | 0.9964 | Fail to reject H₀ |
+| Gender | Male vs Female | Margin | 0.9847 | Fail to reject H₀ |
 
-# Push data to remote
-dvc push
+All p‑values > 0.05 → no statistical evidence for risk differences in the selected comparisons.
+
+## Business Recommendation
+
+- Do **not** adjust premiums solely based on province (Addis Ababa vs Oromia), zip code (10002 vs 20003), or gender based on this analysis.  
+- Explore additional province pairs or use multivariate modeling to control for confounding variables.
+
+## Files
+
+- `notebooks/02_hypothesis_testing.ipynb` – complete analysis.  
+- `src/hypothesis_tests.py` – reusable test functions.
+
+## How to Run
+
+1. Ensure the data is available (via DVC: `dvc pull`).  
+2. Run the notebook cells in order.  
+3. The results table and interpretations are embedded.
