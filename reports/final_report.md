@@ -86,7 +86,10 @@ All additional plots are in `notebooks/01_eda.ipynb`.
 | Gender | Male vs Female | Claim Severity | t‑test | 0.9964 | Fail to reject |
 | Gender | Male vs Female | Margin | t‑test | 0.9847 | Fail to reject |
 
+**Business decision:** Because we found no significant risk difference between Addis Ababa and Oromia (p = 0.81) and between the tested zip codes and genders, ACIS should **not** introduce premium adjustments based solely on these factors. Instead, focus on vehicle make, age, and income as primary rating variables. This avoids unnecessary complexity and potential customer dissatisfaction while directing resources to proven risk drivers.
+
 **Business interpretation:** No statistical evidence that province (for tested pair), zip code (for tested pair), or gender alone drive risk differences. Pricing adjustments should rely on other factors (vehicle make, age, income).
+
 
 ---
 
@@ -101,6 +104,8 @@ All additional plots are in `notebooks/01_eda.ipynb`.
 - **F1-score:** 0.2774
 - **AUC:** 0.7408
 
+**Business decision:** The model’s low recall (19%) means it would miss 81% of actual claims if used alone. Therefore, ACIS should **not** rely on this model for automated claim detection or pricing. Instead, use it as a prioritisation tool – flag policies with high predicted claim probability for manual review by underwriters, while actively collecting more claim data to retrain the model in the next quarter.
+
 **Interpretation:** The model correctly classifies 85% of cases, but only catches 19% of actual claims (low recall). For business use, adjust the threshold or apply SMOTE to balance classes.
 
 ### 4.2 Claim Severity Models (on policies with claims)
@@ -112,6 +117,7 @@ All additional plots are in `notebooks/01_eda.ipynb`.
 | Linear Regression | 5256.18 | 0.2189 |
 | Random Forest | 5371.00 | 0.1844 |
 | XGBoost | 5995.12 | -0.0162 |
+**Business decision:** With R² below 0.22, the current severity models cannot reliably predict claim amounts. ACIS should **not** use them for setting premiums. Instead, adopt a segment‑based average severity approach (e.g., by vehicle make and age group) to estimate claim costs. Simultaneously, invest in telematics data collection (driving behaviour, mileage) before attempting severity prediction again.
 
 **Interpretation:** The models explain less than 22% of variance in claim amounts. XGBoost performs worse than predicting the mean. This indicates that the available features (age, income, risk score, custom value estimate, vehicle age) are insufficient for accurate severity prediction. More granular data (e.g., telematics) is needed.
 
@@ -120,6 +126,11 @@ All additional plots are in `notebooks/01_eda.ipynb`.
 *[Insert SHAP summary plot here]*
 
 **Top features:** RiskScore, CustomValueEstimate, AnnualIncome.
+**Business decision:** The top three features – RiskScore, CustomValueEstimate (vehicle value), and AnnualIncome – are actionable. ACIS should immediately adjust premiums for these features. For example:
+- Increase premium by 5‑10% for policies with RiskScore > 75.
+- Decrease premium for policies with RiskScore < 40.
+- Apply a surcharge for vehicles with CustomValueEstimate above 80,000 Rand.
+These changes are data‑backed, low‑risk, and can be implemented within the next pricing cycle.
 
 **Business interpretation:** Higher RiskScore and higher custom value (more valuable vehicles) lead to higher predicted claim amounts. These features should be central in premium pricing.
 
@@ -153,6 +164,14 @@ All additional plots are in `notebooks/01_eda.ipynb`.
   - Deploy models in a production environment and monitor performance.
 
 ---
+## Summary of Business Decisions
+
+| Finding | Business Decision | Impact / Next Step |
+|---------|------------------|--------------------|
+| No significant risk difference between Addis Ababa and Oromia (p = 0.81) | Do not change premiums based on province for these regions | Avoid unnecessary complexity; focus on vehicle make & age |
+| Claim probability model low recall (19%) | Use model as screening tool, not automated rejection | Flag high‑risk policies for manual review; collect more claim data |
+| Severity models poor (R² < 0.22) | Suspend severity‑based pricing; use segment averages | Protect profitability; invest in telematics |
+| Top features: RiskScore, CustomValueEstimate, AnnualIncome | Adjust premiums immediately for these features | Implement within next pricing cycle |
 
 ## 7. Conclusion
 
