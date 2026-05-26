@@ -34,5 +34,3 @@ Top features: RiskScore, CustomValueEstimate, AnnualIncome.
 ## Setup
 Same as main branch (see main README after merge).
 
-## Next Step
-Merge this branch into `main` to combine all tasks.
